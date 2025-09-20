@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <title>ขอบคุณเสี่ยพลอยยยยยยยยยยยยยยย</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+    /* แอนิเมชั่นเปลี่ยนสีพื้นหลัง */
+    @keyframes partyBackground {
+      0% {
+        background-color: #ff00ff;
+      }
+
+      25% {
+        background-color: #00ffff;
+      }
+
+      50% {
+        background-color: #ffff00;
+      }
+
+      75% {
+        background-color: #ff0000;
+      }
+
+      100% {
+        background-color: #ff00ff;
+      }
+    }
+
+    /* แอนิเมชั่นกรอบเรืองแสง */
+    @keyframes glowingBorder {
+      0% {
+        border-color: #ff00ff;
+        box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+      }
+
+      25% {
+        border-color: #00ffff;
+        box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+      }
+
+      50% {
+        border-color: #ffff00;
+        box-shadow: 0 0 15px #ffff00, 0 0 30px #ffff00;
+      }
+
+      75% {
+        border-color: #ff0000;
+        box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
+      }
+
+      100% {
+        border-color: #ff00ff;
+        box-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+      }
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #111;
+      animation: partyBackground 15s infinite alternate;
+      overflow: hidden;
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .container {
+      position: relative;
+      width: 80%;
+      height: 80vh;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 5px solid;
+      animation: glowingBorder 5s infinite alternate;
+    }
+
+    .moving-image {
+      position: absolute;
+      width: 320px;
+      height: 567px;
+      cursor: pointer;
+      transition: transform 0.3s ease-out;
+      border-radius: 5px;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    .moving-image:hover {
+      transform: scale(1.2) rotate(360deg);
+      transition: transform 0.8s ease-out;
+      filter: drop-shadow(0 0 20px #fff);
+    }
+
+    /* สไตล์สำหรับรูปภาพจริงภายในกรอบ */
+    .image-content {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.7);
+    }
+
+    /* สไตล์สำหรับอนุภาค */
+    .particle {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 style="position: absolute; top: 0; left: 0; padding: 0; margin: 0; text-align: center; font-family: 'Kanit', sans-serif; justify-self: center;">
+    ขอบคุณเสี่ยพลอยนะฆร่ะ</h1>
+
+  <div class="container">
+    <img src="public/S__28418199.jpg" class="moving-image">
+  </div>
+
+  <audio id="fireworkSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+
+  <script>
+    const image = document.querySelector('.moving-image');
+    const container = document.querySelector('.container');
+    const fireworkSound = document.getElementById('fireworkSound');
+
+    // กำหนดค่าเริ่มต้นแบบสุ่ม
+    let x = Math.random() * (container.clientWidth - image.clientWidth);
+    let y = Math.random() * (container.clientHeight - image.clientHeight);
+    let dx = (Math.random() - 0.5) * 6;
+    let dy = (Math.random() - 0.5) * 6;
+    let rotation = Math.random() * 360;
+    let dr = (Math.random() - 0.5) * 5;
+
+    function animate() {
+      // เคลื่อนที่
+      x += dx;
+      y += dy;
+
+      // ตรวจสอบการชนขอบ
+      if (x + image.clientWidth >= container.clientWidth || x <= 0) {
+        dx = -dx;
+      }
+      if (y + image.clientHeight >= container.clientHeight || y <= 0) {
+        dy = -dy;
+      }
+
+      // หมุน
+      rotation += dr;
+
+      // อัปเดตตำแหน่งและการหมุน
+      image.style.left = `${x}px`;
+      image.style.top = `${y}px`;
+      image.style.transform = `rotate(${rotation}deg)`;
+
+      requestAnimationFrame(animate);
+    }
+
+    // เมื่อคลิกที่รูปภาพ
+    image.addEventListener('click', (e) => {
+      // เล่นเสียง
+      fireworkSound.currentTime = 0;
+      fireworkSound.play().catch(error => {
+        console.log('Error playing sound:', error);
+        // เพิ่มการแจ้งเตือนหากเบราว์เซอร์บล็อก
+      });
+
+      // สร้างและแสดงอนุภาค
+      createParticles(e.clientX, e.clientY);
+    });
+
+    function createParticles(xPos, yPos) {
+      const particleColors = ['#ff00ff', '#00ffff', '#ffff00', '#ff0000', '#00ff00'];
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        document.body.appendChild(particle);
+
+        const size = Math.random() * 8 + 4;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${xPos}px`;
+        particle.style.top = `${yPos}px`;
+        particle.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
+
+        // แอนิเมชั่นการเคลื่อนที่และเลือนหาย
+        setTimeout(() => {
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * 150 + 50;
+          particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+          particle.style.opacity = 0;
+        }, 10);
+
+        // ลบอนุภาคเมื่อแอนิเมชั่นจบ
+        particle.addEventListener('transitionend', () => {
+          particle.remove();
+        });
+      }
+    }
+
+    // เริ่มต้นแอนิเมชั่น
+    animate();
+  </script>
+
+</body>
+
+</html>
